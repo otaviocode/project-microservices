@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.microservices.model.Pedido;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Pedidos", description = "Recurso para criar um novo pedido!")
 @RestController
 @RequestMapping("/api/v1/pedidos")
 public class PedidoController {
@@ -18,6 +25,12 @@ public class PedidoController {
 	private final Logger logger = LoggerFactory.getLogger(PedidoController.class);
 
 	@PostMapping
+	@Operation(summary = "Criar um Novo pedido!", 
+	description = "Contem as operações para criar um novo pedido", 
+	responses = @ApiResponse(responseCode = "201", 
+	description = "Recurso criado com sucesso!", 
+	content = @Content(mediaType = "application/json", 
+	schema = @Schema(implementation = Pedido.class))))
 	public ResponseEntity<Pedido> criarPedido(@RequestBody Pedido pedido) {
 
 		logger.info("Pedido Recebido! {}", pedido.toString());
